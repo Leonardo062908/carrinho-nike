@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { FlatList, Text, View } from 'react-native';
+import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
 
 const tenisList = [
   { id: 1, nome: "Nike KD 16", numero: 42, cor: "Rosa" },
@@ -14,6 +14,12 @@ export default function App() {
 
       {/* Título da loja */}
       <Text style={styles.title}>NIKE</Text>
+
+      {/* Simbolo da NIKE */}
+      <Image
+        source={require('./assets/nikesimbol.jpg')}
+        style={styles.logo}
+      />
 
       {/* Subtítulo */}
       <Text style={styles.subtitle}>seu estilo aqui</Text>
@@ -40,22 +46,32 @@ export default function App() {
   );
 }
 
-const styles = {
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 50,
     backgroundColor: '#fff',
     paddingHorizontal: 20,
   },
+  logo: {
+    width: 100,
+    height: 100,
+    resizeMode: 'contain',
+    alignSelf: 'center',
+    marginBottom: 10,
+  },
   title: {
     fontSize: 32,
     fontWeight: 'bold',
     marginBottom: 4,
+    textAlign: 'center',
+    color: 'black',
   },
   subtitle: {
     fontSize: 18,
     color: '#666',
     marginBottom: 20,
+    textAlign: 'center',
   },
   productList: {
     paddingBottom: 20,
@@ -85,4 +101,4 @@ const styles = {
     borderTopWidth: 1,
     borderTopColor: '#eee',
   },
-};
+});
