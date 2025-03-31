@@ -1,9 +1,25 @@
 import { StatusBar } from 'expo-status-bar';
-import { ScrollView, Text, View } from 'react-native';
+import { FlatList, ScrollView, Text, View } from 'react-native';
+
+const tenisList = [
+  { id: 1, nome: "Nike KD 16", numero: 42, cor: "Rosa" },
+  { id: 2, nome: "Nike JA 1", numero: 40, cor: "Rosa" },
+  { id: 3, nome: "Nike Jordan 4", numero: 43, cor: "Azul" },
+];
 
 export default function App() {
   return (
     <View style={styles.container}>
+      <FlatList
+        data={tenisList}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => (
+          <View style={{ marginBottom: 15 }}>
+            <Text style={{ fontSize: 18 }}>{item.nome}</Text>
+            <Text style={{ color: '#666' }}>Número: {item.numero}</Text>
+          </View>
+        )}
+      />
       <StatusBar style="dark" />
 
       {/* Título da loja */}
@@ -23,6 +39,7 @@ export default function App() {
         <Text style={styles.placeholder}>[ Carrinho / Ações ]</Text>
       </View>
     </View>
+
   );
 }
 
