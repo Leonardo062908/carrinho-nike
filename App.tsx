@@ -29,6 +29,7 @@ const tenisList = [
 
 export default function App() {
   const [carrinho, setCarrinho] = useState<any[]>([]);
+  const [exibirCarrinho, setExibirCarrinho] = useState(false);
 
   const adicionarAoCarrinho = (item: any) => {
     setCarrinho((prev) => [...prev, item]);
@@ -39,19 +40,17 @@ export default function App() {
     <View style={styles.container}>
       <StatusBar style="dark" />
 
-      {/* Título da loja */}
-      <Text style={styles.title}>NIKE</Text>
+      {/* Cabeçalho com logo e título */}
+      <View style={styles.header}>
+        <Image
+          source={require('./assets/nikesimbol.jpg')}
+          style={styles.logo}
+        />
+        <Text style={styles.title}>NIKE</Text>
+      </View>
 
-      {/* Simbolo da NIKE */}
-      <Image
-        source={require('./assets/nikesimbol.jpg')}
-        style={styles.logo}
-      />
-
-      {/* Subtítulo */}
       <Text style={styles.subtitle}>seu estilo aqui</Text>
 
-      {/* Lista de produtos */}
       <FlatList
         data={tenisList}
         keyExtractor={(item) => item.id.toString()}
@@ -74,12 +73,31 @@ export default function App() {
         )}
       />
 
-      {/* Rodapé */}
       <View style={styles.footer}>
         <Text style={styles.placeholder}>
           Carrinho: {carrinho.length} item{carrinho.length === 1 ? '' : 's'}
         </Text>
+        <TouchableOpacity onPress={() => setExibirCarrinho(!exibirCarrinho)}>
+          <Text style={styles.verCarrinho}>Ver meu carrinho</Text>
+        </TouchableOpacity>
       </View>
+
+      {exibirCarrinho && (
+        <View style={styles.carrinhoContainer}>
+          <Text style={styles.carrinhoTitulo}>Itens no carrinho:</Text>
+          {carrinho.length === 0 ? (
+            <Text style={styles.productInfo}>Nenhum item no carrinho.</Text>
+          ) : (
+            carrinho.map((item, index) => (
+              <View key={index} style={styles.productCard}>
+                <Text style={styles.productName}>{item.nome}</Text>
+                <Text style={styles.productInfo}>Número: {item.numero}</Text>
+                <Text style={styles.productInfo}>Cor: {item.cor}</Text>
+              </View>
+            ))
+          )}
+        </View>
+      )}
     </View>
   );
 }
@@ -91,18 +109,21 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingHorizontal: 20,
   },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    marginBottom: 4,
+  },
   logo: {
-    width: 100,
-    height: 100,
+    width: 40,
+    height: 40,
     resizeMode: 'contain',
-    alignSelf: 'center',
-    marginBottom: 10,
   },
   title: {
     fontSize: 32,
     fontWeight: 'bold',
-    marginBottom: 4,
-    textAlign: 'center',
     color: 'black',
   },
   subtitle: {
@@ -159,5 +180,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderTopWidth: 1,
     borderTopColor: '#eee',
+  },
+  verCarrinho: {
+    color: '#007bff',
+    fontWeight: 'bold',
+    marginTop: 8,
+    textDecorationLine: 'underline',
+  },
+  carrinhoContainer: {
+    marginTop: 10,
+    marginBottom: 30,
+  },
+  carrinhoTitulo: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    textAlign: 'center',
   },
 });
